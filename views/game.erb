@@ -1,0 +1,38 @@
+<h4> Hi there, <%= session[:player_name] %></h4>
+
+Here are your cards:
+
+<ul>
+  <% session[:player_cards].each do |card| %>
+  <li><%= card.to_s %></li>
+
+  <% end %>
+</ul>
+
+<h5> Your total is <%= total(session[:player_cards]) %></h5>
+
+Here are the dealer's cards: 
+
+<ul>
+	<li>Hidden</li>
+  <%= session[:dealer_cards][-1] %>
+</ul>
+
+<h4>What would you like to do?</h4>
+
+<form action='/game/player/hit' method='post'>
+  <input type='submit' value='Hit'>
+	
+</form>
+
+<form action='/game/player/stay' method='post'>
+  <input type='submit' value='Stay'>
+</form>
+
+
+
+
+
+
+
+

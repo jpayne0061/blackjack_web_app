@@ -1,0 +1,31 @@
+Here are your cards:
+
+<ul>
+  <% session[:player_cards].each do |card| %>
+  <li><%= card.to_s %></li>
+
+  <% end %>
+</ul>
+
+<h5> Your total is <%= total(session[:player_cards]) %></h5>
+
+Here are the dealer's cards: 
+
+<ul>
+  <% session[:dealer_cards].each do |card| %>
+  <li><%= card.to_s %></li>
+
+  <% end %>
+</ul>
+
+
+<h5> The dealer's total is <%= total(session[:dealer_cards]) %></h5>
+
+<% if total(session[:dealer_cards]) > total(session[:player_cards]) %>
+  <h3>You Lose!</h3>
+<% elsif total(session[:player_cards]) > total(session[:dealer_cards]) %>
+  <h3>You win!<h3>
+<% else %>
+  <h3>A tie!<h3>
+<% end %>
+

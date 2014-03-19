@@ -1,0 +1,11 @@
+
+<h3>Yikes! You went bust with the <%= session[:player_cards][-1] %>!<h3>
+
+<ul>
+  <% session[:player_cards].each do |card| %>
+  <li><%= card.to_s %></li>
+
+  <% end %>
+</ul>
+
+<h6> Your total is <%= total(session[:player_cards]) %></h6>
