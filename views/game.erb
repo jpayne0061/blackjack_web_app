@@ -1,36 +1,85 @@
-<h4> Hi there, <%= session[:player_name] %></h4>
 
-Here are your cards:
 
-<ul>
-  <% session[:player_cards].each do |card| %>
-  <li><%= card.to_s %></li>
+<!-- <h3 id='room'>Here are the dealer's cards:</h3>  -->
 
-  <% end %>
-</ul>
 
-<h5> Your total is <%= total(session[:player_cards]) %></h5>
-
-Here are the dealer's cards: 
-
-<ul>
-	<li>Hidden</li>
-  <%= session[:dealer_cards][-1] %>
-</ul>
-
-<h4>What would you like to do?</h4>
-
-<form action='/game/player/hit' method='post'>
-  <input type='submit' value='Hit'>
+<!-- <% if @buttons %>
+	<form action='/game/player/hit' method='post' id='hit_form'>
+	  <input type='submit' value='Hit' class='btn btn-success' id='resize_hit'>
 	
-</form>
+	</form>
 
-<form action='/game/player/stay' method='post'>
-  <input type='submit' value='Stay'>
-</form>
+	<form action='/game/player/stay' method='post' id='stay_form'>
+	  <input type='submit' value='Stay' class='btn btn-warning' id='resize_stay'>
+	</form>
+<% end %> -->
+
+<!-- <% if @play_again %>
+	<form id='play_again'>
+	  <a href='/game'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>
+	
+	</form>
+<% end %> -->
+
+
+	<% if total(session[:player_cards]) == 21 %>
+		<% @success = "Blackjack!" %>
+		<% @buttons = false %>
+	<% else %>
+	  <div class='alert hide_div' id='alert_stay'>
+	    You are staying with <%= total(session[:player_cards]) %> 
+	  </div>  	 
+	<% end %>	
+
+<div class='well well_color_frame'>
+	<h3 id='room'>Dealer's Hand:</h3>
+	<% if total(session[:player_cards]) == 21 %>
+			<form action='/game/player/stay' method='post' id='resize_deal'>
+			  <input type='submit' value='See Hidden Card' class='btn btn-primary' id='dealer_hit'>
+			</form>	
+	<% end %>
+	<% if @dealer_button %>
+		<form action='/game/dealer/hit' method='post' id='resize_deal'>
+		  <input type='submit' value='Click to See Next Dealer Card' class='btn btn-primary' id='dealer_hit'>
+		</form>	
+	<% end %>
+	<% if @buttons %>
+		<form action='/game/player/hit' method='post' id='hit_form'>
+		  <input type='submit' value='Hit' class='btn btn-success' id='resize_hit'>
+	
+		</form>
+
+		<form action='/game/player/stay' method='post' id='stay_form'>
+		  <input type='submit' value='Stay' class='btn btn-warning' id='resize_stay'>
+		</form>
+	<% end %>
+	<% if @play_again %>
+		<form id='play_again'>
+		  <a href='/game'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>
+	
+		</form>
+	<% end %>
+	<div class="well well_color_dark well_margin">
+		<img src="/images/cards/cover.jpg">
+		<%= card_image(session[:dealer_cards][-1]) %>
+	
+	</div>	
+</div>
 
 
 
+
+<div class='well well_color_frame'>
+	<h3>Your Hand: Your total is <%= total(session[:player_cards]) %></h3>
+	<div class="well well_color_dark well_margin">		
+			<% session[:player_cards].each do |card| %>
+		    <%= card_image(card) %>
+		  <% end %>
+    <% if total(session[:player_cards]) == 21 %>
+		    <img src="/images/cards/rsz_dh_b.jpg"> 
+		<% end %>		  
+	</div>	
+</div>
 
 
 

@@ -1,0 +1,123 @@
+#stay_form {
+	float: right;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	
+}
+#resize_stay {
+	padding: 10px 35px 10px 35px;
+	font-size: 20px;
+}
+#resize_hit {
+	padding: 10px 35px 10px 35px;
+	font-size: 20px;
+}
+
+#hit_form {
+	float: right;
+	margin: 10px 20px 5px 15px;
+
+}
+
+#dealer_hit {
+	padding: 10px 15px 10px 15px;
+	font-size: 18px;
+}
+
+#resize_deal {
+	float: right;
+	margin: 10px 10px 5px 15px;
+}
+
+#play_again {
+	float: right;
+	margin: 7px 20px 7px 15px;
+}
+
+
+#resize_play {
+	padding: 10px 15px 10px 15px;
+	font-size: 20px;	
+}
+
+#resize_cont {
+	padding: 10px 15px 10px 15px;
+	font-size: 20px;	
+}
+
+.well_margin {
+	margin-bottom: 0px;
+	
+}
+
+.card_space {
+	margin: 5px;
+}
+
+.well_color_dark {
+	background-color: #CDCFCC;
+	padding: 0px;
+}
+
+.well_color_frame {
+	padding: 0px;
+	
+}
+
+.make_room_for_buttons {
+  display: inline-block;	
+	
+}
+
+#room {
+	display: inline-block;
+}
+
+#room2 {
+	display: inline-block;
+}
+
+#room4 {
+	white-space: pre;
+	display: inline-block;
+}
+
+#room5 {
+	display: inline-block;
+}
+
+.name_form {
+	font-size: 24px;
+	
+}
+
+#name_button {
+	margin-top: -10px;
+	
+}
+
+.style_error {
+	font-size: 20px;
+	margin: 0px;
+}
+
+#new_game_link {
+	padding-left: 0px;
+}
+
+.frame_space_top {
+  margin-top: 10px;
+}
+
+#alert_stay {
+	margin: 0px;
+	font-size: 20px;
+}
+
+.hide_div {
+	visibility: hidden;
+	
+}
+
+
+

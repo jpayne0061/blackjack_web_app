@@ -1,4 +1,4 @@
-Here are your cards:
+<!-- Here are your cards:
 
 <ul>
   <% session[:player_cards].each do |card| %>
@@ -16,10 +16,56 @@ Here are the dealer's cards:
   <li><%= card.to_s %></li>
 
   <% end %>
-</ul>
+</ul> -->
+<% if total(session[:dealer_cards]) >= 17 %>
+  <% @dealer_button = false %>
+<% end %>
+
+<% if @dealer_button %>
+  <div class='alert' id='alert_stay'>
+    You are staying with <%= total(session[:player_cards]) %> 
+  </div>
+<% end %>
 
 
-<h5> The dealer's total is <%= total(session[:dealer_cards]) %></h5>
+<div class='well well_color_frame frame_space_top'>
+	<h3 id='room4'>Dealer's Total:   <%= total(session[:dealer_cards])%> </h3>
+	<% if @dealer_button %>
+		<form action='/game/dealer/hit' method='post' id='resize_deal'>
+		  <input type='submit' value='Click to See Next Dealer Card' class='btn btn-primary' id='dealer_hit'>
+		</form>	
+	<% end %>
+	<% if @play_again %>
+		<form id='play_again'>
+		  <a href='/game'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>
+	
+		</form>
+	<% end %>
+	<div class="well well_color_dark well_margin">
+	
+		<% session[:dealer_cards].each do |card| %>
+	    <%= card_image(card) %>
+	  <% end %>
+	
+	</div>	
+</div>	
+
+<div class='well well_color_frame'>
+	<h3>Your Total:   <%= total(session[:player_cards])%>  </h3>
+
+	<div class="well well_color_dark well_margin">
+	
+		<% session[:player_cards].each do |card| %>
+	    <%= card_image(card) %>
+	  <% end %>
+	
+	</div>
+</div>	
+<!-- <h4> Your total is <%= total(session[:player_cards]) %></h4> -->
+
+
+
+<!-- <h5> The dealer's total is <%= total(session[:dealer_cards]) %></h5>
 
 <% if total(session[:dealer_cards]) > total(session[:player_cards]) %>
   <h3>You Lose!</h3>
@@ -27,5 +73,7 @@ Here are the dealer's cards:
   <h3>You win!<h3>
 <% else %>
   <h3>A tie!<h3>
-<% end %>
+<% end %> -->
+
+
 
