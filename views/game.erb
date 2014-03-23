@@ -25,13 +25,15 @@
 	<% if total(session[:player_cards]) == 21 %>
 		<% @success = "Blackjack!" %>
 		<% @buttons = false %>
+	<% elsif total(session[:player_cards]) > 21 %>	
+		
 	<% else %>
 	  <div class='alert hide_div' id='alert_stay'>
 	    You are staying with <%= total(session[:player_cards]) %> 
 	  </div>  	 
 	<% end %>	
 
-<div class='well well_color_frame'>
+<div class='well well_color_frame frame_space_top'>
 	<h3 id='room'>Dealer's Hand:</h3>
 	<% if total(session[:player_cards]) == 21 %>
 			<form action='/game/player/stay' method='post' id='resize_deal'>
