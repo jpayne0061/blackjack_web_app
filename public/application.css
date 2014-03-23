@@ -55,13 +55,13 @@
 }
 
 .well_color_dark {
-	background-color: #CDCFCC;
+	background-image: url('images/cards/brushed.png'); /*#CDCFCC*/
 	padding: 0px;
 }
 
 .well_color_frame {
 	padding: 0px;
-	
+	background-color: url('images/cards/greyzz.png');
 }
 
 .make_room_for_buttons {
@@ -119,5 +119,9 @@
 	
 }
 
+body {
+	zoom: 90%;
+  background-image: url('images/cards/felt.png');	
+}
 
-
+ 
