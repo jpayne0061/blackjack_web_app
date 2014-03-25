@@ -52,14 +52,17 @@ helpers do
   def who_wins?
     if @dealer_button == false
       if total(session[:dealer_cards]) > 21
-        @success = "Awesome, dealer went bust. You win!"
+        session[:bank] += session[:initial_bet].to_i
+        @success = "Awesome, dealer went bust. You win $#{session[:initial_bet]}!"
         @buttons = false
         @play_again = true
       elsif total(session[:dealer_cards]) > total(session[:player_cards])
+        session[:bank] -= session[:initial_bet].to_i
         @error = "Sorry, it looks like you lost. Dealer total is #{total(session[:dealer_cards])}. Your total is #{total(session[:player_cards])} "
         @buttons = false
         @play_again = true
       elsif total(session[:player_cards]) > total(session[:dealer_cards])
+        session[:bank] += session[:initial_bet].to_i
         @success = "Awesome, you win! Dealer total is #{total(session[:dealer_cards])}. Your total is #{total(session[:player_cards])}!"
         @buttons = false
         @play_again = true   
@@ -70,6 +73,7 @@ helpers do
       end  
     end
   end
+  
 end
 
 before do
@@ -77,6 +81,8 @@ before do
   @nohit = true
   @play_again = false
   @dealer_button = false
+  @bet_button = false
+  @over_bet = false
 end  
 
 get '/' do
@@ -89,10 +95,42 @@ post '/set_name' do
     halt erb(:set_name)
   end  
   
-  session[:player_name] = params[:player_name] 
+  session[:player_name] = params[:player_name]
+  session[:bank] = 500
+  
+  if params[:initial_bet].to_i > session[:bank]
+    @error = "Whoa there, high roller...check your bank roll."
+    halt erb(:click_to_cont)
+  end
  
   erb :click_to_cont
 end
+
+post '/first_bet' do
+  if params[:initial_bet].to_i > session[:bank]
+    @error = "Whoa there, high roller...check your bank roll."
+    halt erb(:click_to_cont)
+  end
+
+  session[:initial_bet] = params[:initial_bet].to_i
+
+  redirect '/game'
+
+end
+
+post '/set_bet' do
+  if params[:initial_bet].to_i > session[:bank]
+    # @error = "Whoa there, high roller...check your bank roll."
+    @bet_button = true
+    @over_bet = true
+    halt erb(:show_cards)
+  end
+  
+  session[:initial_bet] = params[:initial_bet].to_i
+  
+  redirect '/game'
+end  
+
 
 get '/game' do
   suits = ['H', 'D', 'C', 'S']
@@ -113,9 +151,11 @@ post '/game/player/hit' do
   session[:player_cards] << session[:deck].pop
   total(session[:player_cards])
   if total(session[:player_cards]) > 21
+    session[:bank] -= session[:initial_bet].to_i
     @error = "Yikes! You went bust."
     @buttons = false
     @play_again = true
+    #erb :show_cards
   end
   if total(session[:player_cards]) == 21 
     #@success = "Blackjack!"
@@ -165,6 +205,10 @@ post '/game/dealer/hit' do
 end  
 
 get '/show_cards' do
+  @dealer_button = false
+  @buttons = false
+  @play_again = false
+  @bet_button = true
   erb :show_cards
 end
 

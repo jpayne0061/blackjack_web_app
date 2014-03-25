@@ -41,8 +41,9 @@
 }
 
 #resize_cont {
-	padding: 10px 15px 10px 15px;
-	font-size: 20px;	
+	padding: 4px 15px 4px 15px;
+	font-size: 16px;
+	margin-top: -10px;	
 }
 
 .well_margin {
@@ -86,6 +87,12 @@
 	display: inline-block;
 }
 
+#initial_bet {
+	display: inline-block;
+	margin-top: 0px;
+	
+}
+
 .name_form {
 	font-size: 24px;
 	
@@ -123,5 +130,34 @@ body {
 	zoom: 90%;
   background-image: url('images/cards/felt.png');	
 }
+#your_hand {
+  display: inline-block;	
+	
+}
 
- 
+#bank_roll {
+	display: inline-block;
+	float: right;
+	margin-right: 15px;
+}
+
+#bet_form {
+	display: inline-block;
+	float: right;
+	margin-bottom: 0px;
+	margin-top: 13px;
+}
+
+#bet_button {
+	padding: 10px 15px 10px 15px ; /*4px 15px 4px 15px*/
+	font-size: 20px;
+	margin-top: -5px;
+	
+}
+#bet_field {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 0px;
+	margin-top: -5px;
+	
+}

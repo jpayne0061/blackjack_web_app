@@ -17,6 +17,7 @@ Here are the dealer's cards:
 
   <% end %>
 </ul> -->
+
 <% if total(session[:dealer_cards]) >= 17 %>
   <% @dealer_button = false %>
 <% end %>
@@ -25,6 +26,16 @@ Here are the dealer's cards:
   <div class='alert' id='alert_stay'>
     You are staying with <%= total(session[:player_cards]) %> 
   </div>
+<% elsif @over_bet %>
+  <div class='alert alert-error style_error'>
+    <!-- You have made a bet of $<%= session[:initial_bet] %>. Your bank roll is currently $<%= session[:bank] %> -->
+		Whoa there, high roller...check your bank roll. 
+  </div>	
+<% elsif @bet_button %>
+  <div class='alert' id='alert_stay'>
+    <!-- You have made a bet of $<%= session[:initial_bet] %>. Your bank roll is currently $<%= session[:bank] %> -->
+		Please Make Another Bet 
+  </div>	
 <% end %>
 
 
@@ -37,10 +48,17 @@ Here are the dealer's cards:
 	<% end %>
 	<% if @play_again %>
 		<form id='play_again'>
-		  <a href='/game'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>
-	
+		  <a href='/show_cards'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>	
 		</form>
 	<% end %>
+	
+	<% if @bet_button %>
+		<form action="/set_bet" method="post" id='bet_form'>
+			<input type="text" name="initial_bet" id='bet_field'/>
+			<input type='submit' value='Enter a bet amount' class='btn btn-primary' id='bet_button'><!-- id='resize_cont' -->
+		</form>
+	<% end %>
+	
 	<div class="well well_color_dark well_margin">
 	
 		<% session[:dealer_cards].each do |card| %>
@@ -51,8 +69,8 @@ Here are the dealer's cards:
 </div>	
 
 <div class='well well_color_frame'>
-	<h3>Your Total:   <%= total(session[:player_cards])%>  </h3>
-
+	<h3 id='your_hand'>Your total:   <%= total(session[:player_cards])%>  </h3>
+  <h3 id='bank_roll'>Your Bank Roll: $<%= session[:bank] %>  </h3>
 	<div class="well well_color_dark well_margin">
 	
 		<% session[:player_cards].each do |card| %>

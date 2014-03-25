@@ -26,10 +26,10 @@
 		<% @success = "Blackjack!" %>
 		<% @buttons = false %>
 	<% elsif total(session[:player_cards]) > 21 %>	
-		
+		<%  %>
 	<% else %>
-	  <div class='alert hide_div' id='alert_stay'>
-	    You are staying with <%= total(session[:player_cards]) %> 
+	  <div class='alert' id='alert_stay'>
+	    You have made a bet of $<%= session[:initial_bet] %>. Your bank roll is currently $<%= session[:bank] %> 
 	  </div>  	 
 	<% end %>	
 
@@ -57,7 +57,7 @@
 	<% end %>
 	<% if @play_again %>
 		<form id='play_again'>
-		  <a href='/game'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>
+		  <a href='/show_cards'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>
 	
 		</form>
 	<% end %>
@@ -69,10 +69,9 @@
 </div>
 
 
-
-
 <div class='well well_color_frame'>
-	<h3>Your Hand: Your total is <%= total(session[:player_cards]) %></h3>
+	<h3 id='your_hand'>Your Hand: Your total is <%= total(session[:player_cards]) %></h3>
+	<h3 id='bank_roll'>Your Bank Roll: $<%= session[:bank] %>  </h3>
 	<div class="well well_color_dark well_margin">		
 			<% session[:player_cards].each do |card| %>
 		    <%= card_image(card) %>
