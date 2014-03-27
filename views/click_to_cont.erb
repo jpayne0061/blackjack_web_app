@@ -1,15 +1,18 @@
+<div class='well well_color_dark welc_div'>
+	
+		<% if @nohit %>
+		  <h3 <div class='welcs'> Hi there, <%= session[:player_name] %>.</h3>
+		<% end %>
+		<br/>
+		<h3 class='welcs'>Your bank roll is $<%= session[:bank].to_s %></h3>
 
-<% if @nohit %>
-  <h3> Hi there, <%= session[:player_name] %>.</h3>
-<% end %>
-<h3>Your bank roll is $<%= session[:bank].to_s %></h3>
-
-<h3 id='initial_bet'>Please make an initial bet</h3>
-<form action="/first_bet" method="post">
-	<input type="text" name="initial_bet"/>
-	<input type='submit' value='Click Here to Start!' class='btn btn-primary' id='resize_cont'>
-</form>
-
+		<h3 id='initial_bet' class='welcs'>Please make an initial bet</h3>
+		<form action="/first_bet" method="post" class='welcs'>
+			<input type="text" name="initial_bet" class='bet_field'/>
+			<input type='submit' value='Click Here to Start!' class='btn btn-primary' id='resize_cont'>
+		</form>
+	
+</div>
 
 
 

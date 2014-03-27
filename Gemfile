@@ -4,5 +4,5 @@ ruby "2.1.1"
 gem 'sinatra'
 gem 'thin'
 gem 'pry'
-gem 'shotgun'
+#gem 'shotgun'
 

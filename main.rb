@@ -53,21 +53,21 @@ helpers do
     if @dealer_button == false
       if total(session[:dealer_cards]) > 21
         session[:bank] += session[:initial_bet].to_i
-        @success = "Awesome, dealer went bust. You win $#{session[:initial_bet]}!"
+        @winner = "Awesome, dealer went bust. You win $#{session[:initial_bet]}!"
         @buttons = false
         @play_again = true
       elsif total(session[:dealer_cards]) > total(session[:player_cards])
         session[:bank] -= session[:initial_bet].to_i
-        @error = "Sorry, it looks like you lost. Dealer total is #{total(session[:dealer_cards])}. Your total is #{total(session[:player_cards])} "
+        @loser = "Sorry, it looks like you lost. Dealer total is #{total(session[:dealer_cards])}. Your total is #{total(session[:player_cards])} "
         @buttons = false
         @play_again = true
       elsif total(session[:player_cards]) > total(session[:dealer_cards])
         session[:bank] += session[:initial_bet].to_i
-        @success = "Awesome, you win! Dealer total is #{total(session[:dealer_cards])}. Your total is #{total(session[:player_cards])}!"
+        @winner = "Awesome, you win! Dealer total is #{total(session[:dealer_cards])}. Your total is #{total(session[:player_cards])}!"
         @buttons = false
         @play_again = true   
       else
-        @success = "A tie"
+        @winner = "A tie"
         @buttons = false 
         @play_again = true 
       end  
@@ -91,7 +91,7 @@ end
 
 post '/set_name' do
   if params[:player_name].empty?
-    @error = "Name field is requred"  
+    @loser = "Name field is requred"  
     halt erb(:set_name)
   end  
   
@@ -99,7 +99,7 @@ post '/set_name' do
   session[:bank] = 500
   
   if params[:initial_bet].to_i > session[:bank]
-    @error = "Whoa there, high roller...check your bank roll."
+    @loser = "Whoa there, high roller...check your bank roll."
     halt erb(:click_to_cont)
   end
  
@@ -108,7 +108,7 @@ end
 
 post '/first_bet' do
   if params[:initial_bet].to_i > session[:bank]
-    @error = "Whoa there, high roller...check your bank roll."
+    @loser = "Whoa there, high roller...check your bank roll."
     halt erb(:click_to_cont)
   end
 
@@ -119,7 +119,7 @@ post '/first_bet' do
 end
 
 post '/set_bet' do
-  if params[:initial_bet].to_i > session[:bank]
+  if params[:initial_bet].to_i > session[:bank] || params[:initial_bet].to_i == 0
     # @error = "Whoa there, high roller...check your bank roll."
     @bet_button = true
     @over_bet = true
@@ -142,6 +142,11 @@ get '/game' do
   session[:dealer_cards] << session[:deck].pop
   session[:player_cards] << session[:deck].pop
   session[:dealer_cards] << session[:deck].pop
+  if total(session[:player_cards]) == 21 
+    @winner = "Blackjack!"
+    @buttons = false
+    @play_again = false 
+  end
   erb :game 
   
 end
@@ -151,18 +156,18 @@ post '/game/player/hit' do
   session[:player_cards] << session[:deck].pop
   total(session[:player_cards])
   if total(session[:player_cards]) > 21
-    session[:bank] -= session[:initial_bet].to_i
-    @error = "Yikes! You went bust."
+    session[:bank] -= session[:initial_bet].to_i 
+    @loser = "Yikes! You went bust."
     @buttons = false
     @play_again = true
     #erb :show_cards
   end
   if total(session[:player_cards]) == 21 
-    #@success = "Blackjack!"
+    @winner = "Blackjack!"
     @buttons = false
     @play_again = false 
   end  
-  erb :game
+  erb :game, layout: false
 end
 
 get '/game/player/stay' do
@@ -177,9 +182,9 @@ post '/game/player/stay' do
     @dealer_button = true  
   end
   
-  who_wins?
+  who_wins? 
       
-  erb :show_cards
+  erb :show_cards, layout: false
 end  
 
 post '/game/dealer/hit' do
@@ -201,10 +206,13 @@ post '/game/dealer/hit' do
 
   who_wins?
      
-  erb :show_cards
+  erb :show_cards, layout: false
 end  
 
 get '/show_cards' do
+  if session[:bank] == 0
+    redirect '/cash_out'
+  end
   @dealer_button = false
   @buttons = false
   @play_again = false
@@ -212,8 +220,9 @@ get '/show_cards' do
   erb :show_cards
 end
 
+get '/cash_out' do
+  erb :cash_out
 
-
-
+end
 
 

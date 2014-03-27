@@ -1,0 +1,11 @@
+<% if session[:bank] > 0 %>
+  <h3>You got out of dodge with $<%= session[:bank]  %></h3>
+	<h3>Come back soon!</h3>
+<% end %>
+
+<% if session[:bank] == 0 %>
+  <h3>Sorry, looks like you lost all your money!</h3>
+	<h3>Come back soon!</h3>
+<% end %>
+
+

@@ -1,97 +1,102 @@
-<!-- Here are your cards:
+<div id='show_cards'>
+	<%if @loser %>
+	  <div class="alert alert-error style_error"><%=@loser%></div>
+	<% end %>
+	<%if @winner %>
+	  <div class="alert alert-success style_error"><%=@winner%></div>
+	<% end %>
 
-<ul>
-  <% session[:player_cards].each do |card| %>
-  <li><%= card.to_s %></li>
+	<% if total(session[:dealer_cards]) >= 17 %>
+	  <% @dealer_button = false %>
+	<% end %>
 
-  <% end %>
-</ul>
-
-<h5> Your total is <%= total(session[:player_cards]) %></h5>
-
-Here are the dealer's cards: 
-
-<ul>
-  <% session[:dealer_cards].each do |card| %>
-  <li><%= card.to_s %></li>
-
-  <% end %>
-</ul> -->
-
-<% if total(session[:dealer_cards]) >= 17 %>
-  <% @dealer_button = false %>
-<% end %>
-
-<% if @dealer_button %>
-  <div class='alert' id='alert_stay'>
-    You are staying with <%= total(session[:player_cards]) %> 
-  </div>
-<% elsif @over_bet %>
-  <div class='alert alert-error style_error'>
-    <!-- You have made a bet of $<%= session[:initial_bet] %>. Your bank roll is currently $<%= session[:bank] %> -->
-		Whoa there, high roller...check your bank roll. 
-  </div>	
-<% elsif @bet_button %>
-  <div class='alert' id='alert_stay'>
-    <!-- You have made a bet of $<%= session[:initial_bet] %>. Your bank roll is currently $<%= session[:bank] %> -->
-		Please Make Another Bet 
-  </div>	
-<% end %>
-
-
-<div class='well well_color_frame frame_space_top'>
-	<h3 id='room4'>Dealer's Total:   <%= total(session[:dealer_cards])%> </h3>
 	<% if @dealer_button %>
-		<form action='/game/dealer/hit' method='post' id='resize_deal'>
-		  <input type='submit' value='Click to See Next Dealer Card' class='btn btn-primary' id='dealer_hit'>
-		</form>	
+	  <div class='alert' id='alert_stay'>
+	    You are staying with <%= total(session[:player_cards]) %> 
+	  </div>
+	<% elsif @over_bet %>
+	  <div class='alert alert-error style_error'>
+	    <!-- You have made a bet of $<%= session[:initial_bet] %>. Your bank roll is currently $<%= session[:bank] %> -->
+			Whoa there, high roller...check your bank roll. 
+	  </div>	
+	<% elsif @bet_button %>
+	  <div class='alert' id='alert_stay'>
+	    <!-- You have made a bet of $<%= session[:initial_bet] %>. Your bank roll is currently $<%= session[:bank] %> -->
+			Please Make Another Bet 
+	  </div>	
 	<% end %>
-	<% if @play_again %>
-		<form id='play_again'>
-		  <a href='/show_cards'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>	
-		</form>
-	<% end %>
+
+
+	<div class='well well_color_frame frame_space_top'>
 	
-	<% if @bet_button %>
-		<form action="/set_bet" method="post" id='bet_form'>
-			<input type="text" name="initial_bet" id='bet_field'/>
-			<input type='submit' value='Enter a bet amount' class='btn btn-primary' id='bet_button'><!-- id='resize_cont' -->
-		</form>
-	<% end %>
+		<% if @bet_button %>
+		  <h3 id='room4' class='opac'>Dealer's Total:  <%= total(session[:dealer_cards])%> </h3>
+		<% else %>
+		  <h3 id='room4'>Dealer's Total:  <%= total(session[:dealer_cards])%> </h3>	
+		<% end %>
 	
-	<div class="well well_color_dark well_margin">
+		<% if @dealer_button %>
+			<form action='/game/dealer/hit' method='post' id='resize_deal'>
+			  <input type='submit' value='Click to See Next Dealer Card' class='btn btn-primary' id='dealer_hit'>
+			</form>	
+		<% end %>
+		<% if @play_again %>
+			<form id='play_again'>
+			  <a href='/show_cards'><input value='Play Again?' class='btn btn-primary' id='resize_play'></a>	
+			</form>
+		<% end %>
 	
-		<% session[:dealer_cards].each do |card| %>
-	    <%= card_image(card) %>
-	  <% end %>
+		<% if @bet_button %>
+			<form action="/set_bet" method="post" id='bet_form'>
+				<input type="text" name="initial_bet" id='bet_field'/>
+				<input type='submit' value='Enter bet amount' class='btn btn-primary' id='bet_button'><!-- id='resize_cont' -->
+			</form>
+		<% end %>
 	
+		<% if !@bet_button %>
+			<div class="well well_color_dark well_margin">
+				<% session[:dealer_cards].each do |card| %>
+			    <%= card_image(card) %>
+			  <% end %>
+			</div>
+		<% else %>
+			<div class="well well_color_dark well_margin opac" >
+				<% session[:dealer_cards].each do |card| %>
+			    <%= card_image(card) %>
+			  <% end %>
+			</div>
+		<% end %>
+	
+	
+	
+		
 	</div>	
-</div>	
 
-<div class='well well_color_frame'>
-	<h3 id='your_hand'>Your total:   <%= total(session[:player_cards])%>  </h3>
-  <h3 id='bank_roll'>Your Bank Roll: $<%= session[:bank] %>  </h3>
-	<div class="well well_color_dark well_margin">
+	<% if !@bet_button %>
+		<div class='well well_color_frame'>
+			<h3 id='your_hand'>Your total:   <%= total(session[:player_cards])%>  </h3>
+		  <h3 id='bank_roll'>Your Bank Roll: $<%= session[:bank] %>  </h3>
+			<div class="well well_color_dark well_margin">
 	
-		<% session[:player_cards].each do |card| %>
-	    <%= card_image(card) %>
-	  <% end %>
+				<% session[:player_cards].each do |card| %>
+			    <%= card_image(card) %>
+			  <% end %>
 	
-	</div>
-</div>	
-<!-- <h4> Your total is <%= total(session[:player_cards]) %></h4> -->
-
-
-
-<!-- <h5> The dealer's total is <%= total(session[:dealer_cards]) %></h5>
-
-<% if total(session[:dealer_cards]) > total(session[:player_cards]) %>
-  <h3>You Lose!</h3>
-<% elsif total(session[:player_cards]) > total(session[:dealer_cards]) %>
-  <h3>You win!<h3>
-<% else %>
-  <h3>A tie!<h3>
-<% end %> -->
-
-
+			</div>
+		</div>	
+	<% else %>
+		<div class='well well_color_frame'>
+			<h3 id='your_hand' class="opac">Your total:   <%= total(session[:player_cards])%>  </h3>
+		  <h3 id='bank_roll'>Your Bank Roll: $<%= session[:bank] %>  </h3>
+			<div class="well well_color_dark well_margin opac">
+	
+				<% session[:player_cards].each do |card| %>
+			    <%= card_image(card) %>
+			  <% end %>
+	
+			</div>
+		</div>
+	<% end %>
+</div>
+	
 
