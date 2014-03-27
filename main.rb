@@ -46,7 +46,7 @@ helpers do
       end        
     end          
               
-    "<img src='/images/cards/#{suit}_#{value}.jpg' class='card_space'>"
+    "<img src='/images/cards/#{suit}_#{value.downcase}.jpg' class='card_space'>"
   end
   
   def who_wins?
